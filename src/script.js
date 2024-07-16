@@ -76,6 +76,9 @@ gui
         renderer.setClearColor(rendererParameters.clearColor)
     })
 
+    const debugObject = {}
+    debugObject.Color = 'cyan'
+
 /**
  * Material
  */
@@ -85,8 +88,16 @@ const material = new THREE.ShaderMaterial({
     vertexShader: holographicVertex,
     fragmentShader: holographicFragment,
     uniforms: {
-        uTime: new THREE.Uniform(0)
-    }
+        uTime: new THREE.Uniform(0),
+        uColor: new THREE.Uniform(new THREE.Color(debugObject.Color))
+    },
+    side: THREE.DoubleSide,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+
+})
+gui.addColor(debugObject, 'Color').onChange(()=>{
+    material.uniforms.uColor.value.set(debugObject.Color)
 })
 
 /**
